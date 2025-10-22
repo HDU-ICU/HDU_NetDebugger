@@ -1,16 +1,48 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:HDU_NetDebugger.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="HDU_NetDebugger.Views.MainView"
-             x:DataType="vm:MainViewModel">
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:vm="clr-namespace:HDU_NetDebugger.ViewModels"
+  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+  x:Class="HDU_NetDebugger.Views.MainView"
+  x:DataType="vm:MainViewModel">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+         to set the actual DataContext for runtime, set the DataContext property in code (look at
+    App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
-
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Grid RowDefinitions="*,5*"
+    Margin="10">
+    <Panel Grid.Row="0"
+      Margin="10"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch">
+      <Grid ColumnDefinitions="*,Auto"
+        Margin="5">
+        <TextBlock Text="HDU Net Debugger"
+          FontSize="24"
+          FontWeight="Bold"
+          VerticalAlignment="Center"
+          Grid.Column="0" />
+        <Button Content="开始测试"
+          Grid.Column="1" />
+      </Grid>
+    </Panel>
+    <Panel Grid.Row="1"
+      Margin="10">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Auto">
+        <Expander Header="网关连通性"
+          IsExpanded="False"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+          <TextBlock Text="正常巴拉巴拉"
+            TextWrapping="Wrap"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+        </Expander>
+      </ScrollViewer>
+    </Panel>
+  </Grid>
 </UserControl>
