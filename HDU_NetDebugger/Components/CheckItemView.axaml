@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:vm="clr-namespace:HDU_NetDebugger.ViewModels"
+  x:Class="HDU_NetDebugger.Components.CheckItemView"
+  x:DataType="vm:CheckItemViewModel">
+  <Expander IsExpanded="False"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch">
+    <Expander.Header>
+      <StackPanel Orientation="Horizontal"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Center">
+        <TextBlock Text="{Binding Name}"
+          FontSize="16"
+          FontWeight="Bold"
+          VerticalAlignment="Center" />
+        <TextBlock Text=" - "
+          FontSize="16"
+          FontWeight="Bold"
+          VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Status}"
+          FontSize="16"
+          FontWeight="Bold"
+          VerticalAlignment="Center" />
+      </StackPanel>
+    </Expander.Header>
+    <TextBlock Text="{Binding CheckDetails}"
+      TextWrapping="Wrap"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch" />
+  </Expander>
+</UserControl>

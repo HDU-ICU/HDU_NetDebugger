@@ -3,6 +3,8 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:vm="clr-namespace:HDU_NetDebugger.ViewModels"
+  xmlns:components="clr-namespace:HDU_NetDebugger.Components"
+  xmlns:models="clr-namespace:HDU_NetDebugger.Models"
   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
   x:Class="HDU_NetDebugger.Views.MainView"
   x:DataType="vm:MainViewModel">
@@ -38,15 +40,13 @@
       Margin="10">
       <ScrollViewer HorizontalScrollBarVisibility="Auto"
         VerticalScrollBarVisibility="Auto">
-        <Expander Header="网关连通性"
-          IsExpanded="False"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch">
-          <TextBlock Text="正常巴拉巴拉"
-            TextWrapping="Wrap"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
-        </Expander>
+        <ItemsControl ItemsSource="{Binding CheckItems}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="vm:CheckItemViewModel">
+              <components:CheckItemView />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
       </ScrollViewer>
     </Panel>
   </Grid>
