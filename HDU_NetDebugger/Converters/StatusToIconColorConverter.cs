@@ -20,6 +20,7 @@ public class StatusToIconColorConverter : IValueConverter
                 CheckStatus.CheckedWithError => "Red",
                 CheckStatus.Checking => "Blue",
                 CheckStatus.UnChecked => "Gray",
+                CheckStatus.Skipped => "Yellow",
                 _ => "Black"
             };
             var color = SolidColorBrush.Parse(colorName);

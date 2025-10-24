@@ -18,11 +18,12 @@ public class StatusToIconConverter : IValueConverter
         {
             var iconName = status switch
             {
-                CheckStatus.CheckedNoError => "checkmark_circle_regular",
-                CheckStatus.CheckedWithError => "dismiss_circle_regular",
-                CheckStatus.Checking => "arrow_sync_circle_regular",
-                CheckStatus.UnChecked => "more_circle_regular",
-                _ => "info_regular"
+                CheckStatus.CheckedNoError => "checkmark_circle_filled",
+                CheckStatus.CheckedWithError => "dismiss_circle_filled",
+                CheckStatus.Checking => "arrow_sync_circle_filled",
+                CheckStatus.UnChecked => "more_circle_filled",
+                CheckStatus.Skipped => "arrow_circle_down_filled",
+                _ => "info_filled"
             };
             return Application.Current?.FindResource(iconName) as StreamGeometry;
         }

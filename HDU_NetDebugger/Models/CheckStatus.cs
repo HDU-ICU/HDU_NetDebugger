@@ -5,5 +5,6 @@ public enum CheckStatus
     UnChecked,
     Checking,
     CheckedNoError,
-    CheckedWithError
+    CheckedWithError,
+    Skipped
 }
