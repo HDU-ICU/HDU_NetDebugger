@@ -12,11 +12,11 @@ public partial class MainViewModel : ViewModelBase
 {
     public MainViewModel()
     {
-        foreach (var (checker, conditions) in CheckServices.GetAvailableCheckers(["HDU_NetDebugger.Checkers.Network"]))
+        foreach (var (name, checker, conditions) in CheckServices.GetAvailableCheckers([]))
         {
             if (checker is not null)
             {
-                CheckItems.Add(new CheckItemViewModel(checker.Name, checker, conditions));
+                CheckItems.Add(new CheckItemViewModel(name, checker, conditions));
             }
         }
         RunChecksCommand.NotifyCanExecuteChanged();

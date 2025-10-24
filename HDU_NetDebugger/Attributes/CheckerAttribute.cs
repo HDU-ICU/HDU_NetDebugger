@@ -1,5 +1,7 @@
 using System;
 
+namespace HDU_NetDebugger.Attributes;
+
 [AttributeUsage(AttributeTargets.Class)]
 public class CheckerAttribute : Attribute
 {

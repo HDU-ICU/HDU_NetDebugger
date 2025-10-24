@@ -18,8 +18,8 @@ public class StatusToIconConverter : IValueConverter
         {
             var iconName = status switch
             {
-                CheckStatus.CheckedNoError => "checkmark_circle_filled",
-                CheckStatus.CheckedWithError => "dismiss_circle_filled",
+                CheckStatus.Passed => "checkmark_circle_filled",
+                CheckStatus.Failed => "dismiss_circle_filled",
                 CheckStatus.Checking => "arrow_sync_circle_filled",
                 CheckStatus.UnChecked => "more_circle_filled",
                 CheckStatus.Skipped => "arrow_circle_down_filled",

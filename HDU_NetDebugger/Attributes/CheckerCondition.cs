@@ -1,16 +1,16 @@
 using System;
-using System.Threading.Tasks;
 
-namespace HDU_NetDebugger.Services;
+namespace HDU_NetDebugger.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class CheckerCondition : Attribute
 {
     public string Name { get; }
-    public Func<Task<bool>> ConditionFactory { get; set; }
-    public CheckerCondition(string name, Func<Task<bool>> conditionFactory)
+    public string ConditionMethodName { get; set; }
+
+    public CheckerCondition(string name, string conditionMethodName)
     {
         Name = name;
-        ConditionFactory = conditionFactory;
+        ConditionMethodName = conditionMethodName;
     }
 }

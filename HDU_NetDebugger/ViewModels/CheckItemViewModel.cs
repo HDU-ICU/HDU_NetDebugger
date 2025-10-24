@@ -29,6 +29,7 @@ public partial class CheckItemViewModel : ViewModelBase
 
     public async Task RunAsync()
     {
+        Console.WriteLine($"Running check: {Name}");
         var conditionTasks = Conditions.ToDictionary(kv => kv.Key, kv => kv.Value());
         var allResults = await Task.WhenAll(conditionTasks.Values);
         var firstFailed = conditionTasks.FirstOrDefault(kv => !allResults[Array.IndexOf(conditionTasks.Values.ToArray(), conditionTasks[kv.Key])]);
@@ -37,6 +38,18 @@ public partial class CheckItemViewModel : ViewModelBase
             Status = CheckStatus.Skipped;
             CheckDetails = $"条件 \"{firstFailed.Key}\" 未满足，跳过此检查";
             return;
+        }
+        try
+        {
+            Status = CheckStatus.Checking;
+            var result = await Checker.ExecuteAsync();
+            Status = result.IsSuccessful ? CheckStatus.Passed : CheckStatus.Failed;
+            CheckDetails = result.Details;
+        }
+        catch (Exception ex)
+        {
+            Status = CheckStatus.Failed;
+            CheckDetails = $"检查执行时发生异常: {ex.Message}";
         }
     }
 }

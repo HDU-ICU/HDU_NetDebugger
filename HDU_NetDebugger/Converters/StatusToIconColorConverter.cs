@@ -16,8 +16,8 @@ public class StatusToIconColorConverter : IValueConverter
         {
             var colorName = status switch
             {
-                CheckStatus.CheckedNoError => "Green",
-                CheckStatus.CheckedWithError => "Red",
+                CheckStatus.Passed => "Green",
+                CheckStatus.Failed => "Red",
                 CheckStatus.Checking => "Blue",
                 CheckStatus.UnChecked => "Gray",
                 CheckStatus.Skipped => "Yellow",
