@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HDU_NetDebugger.Services;
+using HDU_NetDebugger.Checkers;
 using System;
 using System.Collections.ObjectModel;
 using System.Reflection.PortableExecutable;
