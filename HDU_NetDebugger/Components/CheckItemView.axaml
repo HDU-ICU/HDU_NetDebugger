@@ -3,8 +3,12 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:vm="clr-namespace:HDU_NetDebugger.ViewModels"
+  xmlns:converters="clr-namespace:HDU_NetDebugger.Converters"
   x:Class="HDU_NetDebugger.Components.CheckItemView"
   x:DataType="vm:CheckItemViewModel">
+  <UserControl.Resources>
+    <converters:StatusToIconConverter x:Key="StatusToIconConverter" />
+  </UserControl.Resources>
   <Expander IsExpanded="False"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch">
@@ -12,6 +16,10 @@
       <StackPanel Orientation="Horizontal"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Center">
+        <Image Width="16"
+          Height="16"
+          Source="{Binding Status, Converter={StaticResource StatusToIconConverter}}"
+          VerticalAlignment="Center" />
         <TextBlock Text="{Binding Name}"
           FontSize="16"
           FontWeight="Bold"

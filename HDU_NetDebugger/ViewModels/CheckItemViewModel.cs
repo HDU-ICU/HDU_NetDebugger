@@ -1,16 +1,9 @@
+using HDU_NetDebugger.Models;
 
 namespace HDU_NetDebugger.ViewModels;
 
 public partial class CheckItemViewModel : ViewModelBase
 {
-
-    public enum CheckStatus
-    {
-        UnChecked,
-        Checking,
-        CheckedNoError,
-        CheckedWithError
-    }
     public string Name { get; set; }
     public CheckStatus Status { get; set; }
     public string? CheckDetails { get; set; }
@@ -19,6 +12,6 @@ public partial class CheckItemViewModel : ViewModelBase
     {
         Name = name;
         Status = status;
-        CheckDetails = string.Empty;
+        CheckDetails = "此检查尚未进行";
     }
 }

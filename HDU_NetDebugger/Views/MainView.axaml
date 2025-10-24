@@ -28,6 +28,7 @@
           VerticalAlignment="Center"
           Grid.Column="0" />
         <Button Content="开始测试"
+          Background="{DynamicResource SystemAccentColor}"
           Grid.Column="1" />
       </Grid>
     </Panel>
