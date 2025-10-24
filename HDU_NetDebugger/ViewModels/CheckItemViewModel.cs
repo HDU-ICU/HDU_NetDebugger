@@ -1,12 +1,16 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using HDU_NetDebugger.Models;
 
 namespace HDU_NetDebugger.ViewModels;
 
 public partial class CheckItemViewModel : ViewModelBase
 {
-    public string Name { get; set; }
-    public CheckStatus Status { get; set; }
-    public string? CheckDetails { get; set; }
+    [ObservableProperty]
+    public string _name;
+    [ObservableProperty]
+    public CheckStatus _status;
+    [ObservableProperty]
+    public string? _checkDetails;
 
     public CheckItemViewModel(string name, CheckStatus status = CheckStatus.UnChecked)
     {
