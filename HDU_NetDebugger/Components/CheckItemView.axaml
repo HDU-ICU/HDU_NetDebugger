@@ -3,36 +3,30 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:vm="clr-namespace:HDU_NetDebugger.ViewModels"
-  xmlns:converters="clr-namespace:HDU_NetDebugger.Converters"
+  xmlns:conv="clr-namespace:HDU_NetDebugger.Converters"
   x:Class="HDU_NetDebugger.Components.CheckItemView"
   x:DataType="vm:CheckItemViewModel">
   <UserControl.Resources>
-    <converters:StatusToIconConverter x:Key="StatusToIconConverter" />
+    <conv:StatusToIconConverter x:Key="StatusToIconConverter" />
+    <conv:StatusToIconColorConverter x:Key="StatusToIconColorConverter" />
   </UserControl.Resources>
   <Expander IsExpanded="False"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch">
     <Expander.Header>
-      <StackPanel Orientation="Horizontal"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Center">
-        <Image Width="16"
+      <Grid ColumnDefinitions="Auto,10,Auto">
+        <PathIcon Grid.Column="0"
+          Width="16"
           Height="16"
-          Source="{Binding Status, Converter={StaticResource StatusToIconConverter}}"
+          Data="{Binding Status, Converter={StaticResource StatusToIconConverter}}"
+          Foreground="{Binding Status, Converter={StaticResource StatusToIconColorConverter}}"
           VerticalAlignment="Center" />
-        <TextBlock Text="{Binding Name}"
+        <TextBlock Grid.Column="2"
+          Text="{Binding Name}"
           FontSize="16"
           FontWeight="Bold"
           VerticalAlignment="Center" />
-        <TextBlock Text=" - "
-          FontSize="16"
-          FontWeight="Bold"
-          VerticalAlignment="Center" />
-        <TextBlock Text="{Binding Status}"
-          FontSize="16"
-          FontWeight="Bold"
-          VerticalAlignment="Center" />
-      </StackPanel>
+      </Grid>
     </Expander.Header>
     <TextBlock Text="{Binding CheckDetails}"
       TextWrapping="Wrap"

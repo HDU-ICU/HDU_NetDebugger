@@ -1,7 +1,11 @@
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using HDU_NetDebugger.Models;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace HDU_NetDebugger.Converters;
@@ -12,16 +16,15 @@ public class StatusToIconConverter : IValueConverter
     {
         if (value is CheckStatus status)
         {
-
             var iconName = status switch
             {
-                CheckStatus.CheckedNoError => "CheckCircle",
-                CheckStatus.CheckedWithError => "ErrorCircle",
-                CheckStatus.Checking => "Sync",
-                CheckStatus.UnChecked => "CloseCircle",
-                _ => "Info"
+                CheckStatus.CheckedNoError => "checkmark_circle_regular",
+                CheckStatus.CheckedWithError => "dismiss_circle_regular",
+                CheckStatus.Checking => "arrow_sync_circle_regular",
+                CheckStatus.UnChecked => "more_circle_regular",
+                _ => "info_regular"
             };
-            return iconName;
+            return Application.Current?.FindResource(iconName) as StreamGeometry;
         }
         return null;
 
