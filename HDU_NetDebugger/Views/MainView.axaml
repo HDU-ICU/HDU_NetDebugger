@@ -7,7 +7,8 @@
   xmlns:models="clr-namespace:HDU_NetDebugger.Models"
   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
   x:Class="HDU_NetDebugger.Views.MainView"
-  x:DataType="vm:MainViewModel">
+  x:DataType="vm:MainViewModel"
+  Background="{DynamicResource SystemChromeLowColor}">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at
@@ -30,6 +31,7 @@
         <Button Content="开始测试"
           Command="{Binding RunChecksCommand}"
           Background="{DynamicResource SystemAccentColor}"
+          Foreground="#FFFFFFFF"
           Grid.Column="1" />
       </Grid>
     </Panel>

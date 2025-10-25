@@ -12,7 +12,20 @@
   </UserControl.Resources>
   <Expander IsExpanded="False"
     HorizontalAlignment="Stretch"
-    VerticalAlignment="Stretch">
+    VerticalAlignment="Stretch"
+    Background="{DynamicResource SystemChromeMediumColor}">
+    <Expander.Resources>
+      <SolidColorBrush x:Key="ExpanderHeaderBackground"
+        Color="{DynamicResource SystemChromeMediumColor}" />
+      <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver"
+        Color="{DynamicResource SystemListLowColor}" />
+      <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed"
+        Color="{DynamicResource SystemListMediumColor}" />
+      <SolidColorBrush x:Key="ExpanderHeaderBackgroundDisabled"
+        Color="{DynamicResource SystemChromeDisabledLowColor}" />
+      <SolidColorBrush x:Key="ExpanderContentBackground"
+        Color="{DynamicResource SystemChromeMediumLowColor}" />
+    </Expander.Resources>
     <Expander.Header>
       <Grid ColumnDefinitions="Auto,10,Auto,*">
         <PathIcon Grid.Column="0"
