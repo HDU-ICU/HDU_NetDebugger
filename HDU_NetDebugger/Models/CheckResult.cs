@@ -4,5 +4,6 @@ namespace HDU_NetDebugger.Models;
 public class CheckResult
 {
     public CheckResultStatus Status { get; set; }
-    public required string Details { get; set; }
+    public required string Summary { get; set; }
+    public string? Details { get; set; }
 }

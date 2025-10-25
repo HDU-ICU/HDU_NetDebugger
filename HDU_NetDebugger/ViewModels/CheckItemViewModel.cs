@@ -16,6 +16,8 @@ public partial class CheckItemViewModel : ViewModelBase
     [ObservableProperty]
     public CheckStatus _status;
     [ObservableProperty]
+    public string? _checkSummary;
+    [ObservableProperty]
     public string? _checkDetails;
 
     public IChecker Checker { get; init; }
@@ -25,6 +27,7 @@ public partial class CheckItemViewModel : ViewModelBase
         Name = name ?? string.Empty;
         Checker = checker;
         Conditions = conditions;
+        CheckSummary = string.Empty;
         CheckDetails = "此检查尚未进行";
     }
 
@@ -37,6 +40,7 @@ public partial class CheckItemViewModel : ViewModelBase
         if (firstFailed.Key != null)
         {
             Status = CheckStatus.Skipped;
+            CheckSummary = "检查被跳过";
             CheckDetails = $"条件 \"{firstFailed.Key}\" 未满足，跳过此检查";
             return;
         }
@@ -53,10 +57,12 @@ public partial class CheckItemViewModel : ViewModelBase
             };
             Status = status;
             CheckDetails = result.Details;
+            CheckSummary = result.Summary;
         }
         catch (Exception ex)
         {
             Status = CheckStatus.Failed;
+            CheckSummary = "检查执行失败";
             CheckDetails = $"检查执行时发生异常: {ex.Message}";
         }
     }

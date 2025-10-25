@@ -14,7 +14,7 @@
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch">
     <Expander.Header>
-      <Grid ColumnDefinitions="Auto,10,Auto">
+      <Grid ColumnDefinitions="Auto,10,Auto,*">
         <PathIcon Grid.Column="0"
           Width="16"
           Height="16"
@@ -25,6 +25,10 @@
           Text="{Binding Name}"
           FontSize="16"
           FontWeight="Bold"
+          VerticalAlignment="Center" />
+        <TextBlock Grid.Column="3"
+          Text="{Binding CheckSummary}"
+          Margin="10,0,0,0"
           VerticalAlignment="Center" />
       </Grid>
     </Expander.Header>
