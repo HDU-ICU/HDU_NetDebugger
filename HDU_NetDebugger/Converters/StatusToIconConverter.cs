@@ -20,6 +20,7 @@ public class StatusToIconConverter : IValueConverter
             {
                 CheckStatus.Passed => "checkmark_circle_filled",
                 CheckStatus.Failed => "dismiss_circle_filled",
+                CheckStatus.Warned => "checkmark_circle_warning_filled",
                 CheckStatus.Checking => "arrow_sync_circle_filled",
                 CheckStatus.UnChecked => "more_circle_filled",
                 CheckStatus.Skipped => "arrow_circle_down_filled",

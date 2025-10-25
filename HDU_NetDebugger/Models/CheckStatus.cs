@@ -6,5 +6,6 @@ public enum CheckStatus
     Checking,
     Passed,
     Failed,
+    Warned,
     Skipped
 }

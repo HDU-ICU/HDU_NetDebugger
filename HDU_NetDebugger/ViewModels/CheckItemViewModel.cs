@@ -44,7 +44,14 @@ public partial class CheckItemViewModel : ViewModelBase
         {
             Status = CheckStatus.Checking;
             var result = await Checker.ExecuteAsync();
-            Status = result.IsSuccessful ? CheckStatus.Passed : CheckStatus.Failed;
+            CheckStatus status = result.Status switch
+            {
+                CheckResultStatus.Pass => CheckStatus.Passed,
+                CheckResultStatus.Fail => CheckStatus.Failed,
+                CheckResultStatus.Warn => CheckStatus.Warned,
+                _ => CheckStatus.Failed
+            };
+            Status = status;
             CheckDetails = result.Details;
         }
         catch (Exception ex)

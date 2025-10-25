@@ -17,10 +17,11 @@ public class StatusToIconColorConverter : IValueConverter
             var colorName = status switch
             {
                 CheckStatus.Passed => "Green",
+                CheckStatus.Warned => "Yellow",
                 CheckStatus.Failed => "Red",
                 CheckStatus.Checking => "Blue",
                 CheckStatus.UnChecked => "Gray",
-                CheckStatus.Skipped => "Yellow",
+                CheckStatus.Skipped => "Orange",
                 _ => "Black"
             };
             var color = SolidColorBrush.Parse(colorName);
