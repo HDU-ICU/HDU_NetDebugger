@@ -27,6 +27,12 @@ public partial class CheckItemViewModel : ViewModelBase
         Name = name ?? string.Empty;
         Checker = checker;
         Conditions = conditions;
+        Reset();
+    }
+
+    public void Reset()
+    {
+        Status = CheckStatus.UnChecked;
         CheckSummary = string.Empty;
         CheckDetails = "此检查尚未进行";
     }

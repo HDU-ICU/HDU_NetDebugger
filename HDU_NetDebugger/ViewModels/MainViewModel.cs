@@ -34,11 +34,17 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanRunChecks))]
     public async Task RunChecks()
     {
+        if (isChecksRanOnce)
+        {
+            foreach (var item in CheckItems)
+                item.Reset();
+        }
         Console.WriteLine("Running checks...");
         IsRunningChecks = true;
         foreach (var item in CheckItems)
             await item.RunAsync();
         IsRunningChecks = false;
+        isChecksRanOnce = true;
     }
     public bool CanRunChecks() => HasItems && !IsRunningChecks;
     private bool HasItems => CheckItems?.Count > 0;
@@ -47,4 +53,5 @@ public partial class MainViewModel : ViewModelBase
     [NotifyCanExecuteChangedFor(nameof(RunChecksCommand))]
     public bool isRunningChecks = false;
 
+    private bool isChecksRanOnce = false;
 }
