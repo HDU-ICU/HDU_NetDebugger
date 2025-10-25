@@ -13,7 +13,13 @@ public partial class MainViewModel : ViewModelBase
 {
     public MainViewModel()
     {
-        foreach (var (name, checker, conditions) in CheckServices.GetAvailableCheckers([]))
+        foreach (var (name, checker, conditions) in CheckServices.GetAvailableCheckers([
+            "HDU_NetDebugger.Checkers",
+            "HDU_NetDebugger.Desktop.Checkers",
+            "HDU_NetDebugger.Android.Checkers",
+            "HDU_NetDebugger.iOS.Checkers",
+            "HDU_NetDebugger.Browser.Checkers"
+        ]))
         {
             if (checker is not null)
             {
