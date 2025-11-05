@@ -18,7 +18,7 @@ public class ResultExportService
         AppleUniformTypeIdentifiers = ["public.markdown"],
         MimeTypes = ["text/x-markdown", "text/plain"]
     };
-    public static async Task ExportAsync(ObservableCollection<CheckItemViewModel> checkItems)
+    public static async Task ExportAsync(ObservableCollection<CheckItemViewModel> checkItems, DateTime checkTime)
     {
         if (checkItems is null or { Count: 0 }) return;
 
@@ -43,7 +43,7 @@ public class ResultExportService
                 // all in 流
                 await using var stream = await file.OpenWriteAsync();
                 await using var writer = new StreamWriter(stream);
-                await writer.WriteAsync(ReportBuilder(checkItems) ?? string.Empty);
+                await writer.WriteAsync(ReportBuilder(checkItems, checkTime) ?? string.Empty);
             }
             catch (Exception ex)
             {
@@ -52,11 +52,12 @@ public class ResultExportService
             }
         }
     }
-    public static string ReportBuilder(ObservableCollection<CheckItemViewModel> checkItems)
+    public static string ReportBuilder(ObservableCollection<CheckItemViewModel> checkItems, DateTime checkTime)
     {
         StringBuilder sb = new();
         sb.AppendLine("# HDU Net Debugger 检查结果报告");
         sb.AppendLine($"生成时间: {DateTime.Now}");
+        sb.AppendLine($"检查时间: {checkTime}");
         sb.AppendLine();
         foreach (var item in checkItems)
         {

@@ -41,6 +41,7 @@ public partial class MainViewModel : ViewModelBase
         }
         Console.WriteLine("Running checks...");
         IsRunningChecks = true;
+        LastCheckTime = DateTime.Now;
         foreach (var item in CheckItems)
             await item.RunAsync();
         IsRunningChecks = false;
@@ -63,11 +64,13 @@ public partial class MainViewModel : ViewModelBase
 
     public bool CanExportResults => IsChecksRanOnce && !IsExportingResults && !IsRunningChecks;
 
+    private DateTime LastCheckTime { get; set; } = DateTime.MinValue;
+
     [RelayCommand(CanExecute = nameof(CanExportResults))]
     public async Task ExportResults()
     {
         IsExportingResults = true;
-        await ResultExportService.ExportAsync(CheckItems);
+        await ResultExportService.ExportAsync(CheckItems, LastCheckTime);
         IsExportingResults = false;
     }
 }
