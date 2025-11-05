@@ -34,7 +34,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanRunChecks))]
     public async Task RunChecks()
     {
-        if (isChecksRanOnce)
+        if (IsChecksRanOnce)
         {
             foreach (var item in CheckItems)
                 item.Reset();
@@ -44,14 +44,30 @@ public partial class MainViewModel : ViewModelBase
         foreach (var item in CheckItems)
             await item.RunAsync();
         IsRunningChecks = false;
-        isChecksRanOnce = true;
+        IsChecksRanOnce = true;
     }
     public bool CanRunChecks() => HasItems && !IsRunningChecks;
     private bool HasItems => CheckItems?.Count > 0;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(RunChecksCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ExportResultsCommand))]
     public bool isRunningChecks = false;
 
-    private bool isChecksRanOnce = false;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ExportResultsCommand))]
+    public bool isChecksRanOnce = false;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ExportResultsCommand))]
+    public bool isExportingResults = false;
+
+    public bool CanExportResults => IsChecksRanOnce && !IsExportingResults && !IsRunningChecks;
+
+    [RelayCommand(CanExecute = nameof(CanExportResults))]
+    public async Task ExportResults()
+    {
+        IsExportingResults = true;
+        await ResultExportService.ExportAsync(CheckItems);
+        IsExportingResults = false;
+    }
 }
