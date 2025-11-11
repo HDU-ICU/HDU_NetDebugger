@@ -33,9 +33,23 @@ public class CheckServices
             types = types.Where(t => t.Namespace != null && targetNamespaces.Any(ns => t.Namespace.StartsWith(ns))).ToArray();
         }
 
-        return types
+        // 获取所有符合条件的checker类型，并按名称分组处理重名情况
+        var checkerTypes = types
             .Where(t => t.IsClass && !t.IsAbstract && typeof(IChecker).IsAssignableFrom(t) && t.GetCustomAttribute<CheckerAttribute>() != null)
-            .OrderBy(t => t.GetCustomAttribute<CheckerAttribute>()?.Order ?? 0)
+            .ToList();
+
+        // 按checker名称分组，并在每个组内选择命名空间最深的类型
+        var selectedTypes = checkerTypes
+            .GroupBy(t => t.GetCustomAttribute<CheckerAttribute>()?.Name ?? t.Name)
+            .Select(group =>
+            {
+                // 在相同名称的组内，选择命名空间最深的类型
+                // 使用更优雅的LINQ方式计算命名空间深度（点的数量）
+                return group.OrderByDescending(t => t.Namespace?.Count(c => c == '.') ?? -1).First();
+            })
+            .OrderBy(t => t.GetCustomAttribute<CheckerAttribute>()?.Order ?? 0);
+
+        return selectedTypes
             .Select(t =>
             {
                 var checkerAttribute = t.GetCustomAttribute<CheckerAttribute>();
