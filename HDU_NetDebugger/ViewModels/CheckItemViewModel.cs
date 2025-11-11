@@ -19,6 +19,8 @@ public partial class CheckItemViewModel : ViewModelBase
     public string? _checkSummary;
     [ObservableProperty]
     public string? _checkDetails;
+    [ObservableProperty]
+    public bool _isExpanded = false;
 
     public IChecker Checker { get; init; }
     public Dictionary<string, Func<Task<bool>>> Conditions { get; set; }
@@ -64,6 +66,12 @@ public partial class CheckItemViewModel : ViewModelBase
             Status = status;
             CheckDetails = result.Details;
             CheckSummary = result.Summary;
+
+            // 自动展开失败或警告的检查项
+            if (status == CheckStatus.Failed || status == CheckStatus.Warned)
+            {
+                IsExpanded = true;
+            }
         }
         catch (Exception ex)
         {
