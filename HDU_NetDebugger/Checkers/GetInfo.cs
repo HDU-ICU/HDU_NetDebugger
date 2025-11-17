@@ -10,54 +10,42 @@ using HDU_NetDebugger.Services;
 namespace HDU_NetDebugger.Checkers;
 
 [Checker("获取基本信息", -1)]
-public class GetInfo : IChecker
+public class GetInfo : CheckerBase
 {
-    public required CheckResult Result;
-    async Task<CheckResult> IChecker.ExecuteAsync()
+    protected override async Task ExecuteCoreAsync()
     {
-        return await Task.Run(() =>
+        var detailsBuilder = new StringBuilder();
+        var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+        if (networkInterfaces.Length == 0)
         {
-            Result = new CheckResult
+            Fail("未获取到网络接口信息", string.Empty);
+            return;
+        }
+        foreach (var ni in networkInterfaces)
+        {
+            if (ni.OperationalStatus == OperationalStatus.Up &&
+                ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet &&
+                HasIPv4Address(ni))
             {
-                Status = CheckResultStatus.Pass,
-                Summary = "基本信息获取成功",
-                Details = string.Empty
-            };
-            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-            if (networkInterfaces.Length == 0)
-            {
-                Result.Status = CheckResultStatus.Fail;
-                Result.Summary = "未获取到网络接口信息";
-                Result.Details = string.Empty;
-                return Result;
-            }
-            foreach (var ni in networkInterfaces)
-            {
-                if (ni.OperationalStatus == OperationalStatus.Up &&
-                    ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet &&
-                    HasIPv4Address(ni))
+                detailsBuilder.AppendLine(BuildIFInfo(ni));
+                if (HasDormIPv4Address(ni))
                 {
-                    Result.Details += BuildIFInfo(ni) + "\n";
-                    if (HasDormIPv4Address(ni))
-                    {
-                        GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
-                    }
-                    else if (HasCampusIPv4Address(ni))
-                    {
-                        GlobalFlagList.FlagList["NetWorkType"] = "Campus";
-                    }
+                    GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
+                }
+                else if (HasCampusIPv4Address(ni))
+                {
+                    GlobalFlagList.FlagList["NetWorkType"] = "Campus";
                 }
             }
-            if (string.IsNullOrEmpty(Result.Details))
-            {
-                Result.Status = CheckResultStatus.Fail;
-                Result.Summary = "未找到符合条件的网络接口";
-                Result.Details = "未找到符合条件的网络接口（以太网且已启用且有IPv4地址）\n";
-            }
-            Result.Details = Result.Details.TrimEnd('\n');
-            Result.Summary = GetSummary();
-            return Result;
-        });
+        }
+        if (detailsBuilder.Length == 0)
+        {
+            Fail("未找到符合条件的网络接口", "未找到符合条件的网络接口（以太网且已启用且有IPv4地址）\n");
+        }
+        else
+        {
+            Pass(GetSummary(), detailsBuilder.ToString().TrimEnd('\n'));
+        }
     }
     private static bool HasIPv4Address(NetworkInterface ni)
     {
@@ -69,51 +57,18 @@ public class GetInfo : IChecker
     {
         if (GlobalFlagList.FlagList.TryGetValue("NetWorkType", out var netType))
         {
-            if (netType == "Dorm")
+            string netTypeStr = netType as string ?? string.Empty;
+            if (netTypeStr == "Dorm")
             {
                 return "检测到生活区网络";
             }
-            else if (netType == "Campus")
+            else if (netTypeStr == "Campus")
             {
                 return "检测到教学区网络";
             }
         }
-        RaiseWarning(String.Empty);
+        AddWarning("未检测到校园网地址，如有路由器请忽略");
         return "未检测到校园网地址，如有路由器请忽略";
-    }
-    private bool CheckNetworkType(NetworkInterface ni)
-    {
-        if (HasDormIPv4Address(ni))
-        {
-            if (CheckNetworkTypeExists(ni))
-            {
-                RaiseWarning("检测到多个校园网地址，可能存在网络配置问题");
-            }
-            GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
-            return true;
-        }
-        else if (HasCampusIPv4Address(ni))
-        {
-            if (CheckNetworkTypeExists(ni))
-            {
-                RaiseWarning("检测到多个校园网地址，可能存在网络配置问题");
-            }
-            GlobalFlagList.FlagList["NetWorkType"] = "Campus";
-            return true;
-        }
-        return false;
-    }
-    private static bool CheckNetworkTypeExists(NetworkInterface ni)
-    {
-        return GlobalFlagList.FlagList.ContainsKey("NetWorkType");
-    }
-    private void RaiseWarning(string message)
-    {
-        if (Result.Status != CheckResultStatus.Fail)
-        {
-            Result.Status = CheckResultStatus.Warn;
-        }
-        Result.Summary += $"警告: {message}\n";
     }
     private static bool HasDormIPv4Address(NetworkInterface ni)
     {
