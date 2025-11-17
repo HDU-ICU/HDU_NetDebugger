@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-
+using System.Collections.Concurrent;
 namespace HDU_NetDebugger.Services;
 
 public class GlobalFlagList
 {
-    public static Dictionary<string, string> FlagList { get; set; } = [];
+    public static ConcurrentDictionary<string, object> FlagList { get; set; } = [];
 }
