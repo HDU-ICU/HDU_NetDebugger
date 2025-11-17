@@ -13,7 +13,7 @@ public class CheckResultBuilder
 
     public CheckResultBuilder Pass(string summary, string? details = null)
     {
-        _status = CheckResultStatus.Pass;
+        ChangeStatus(CheckResultStatus.Pass);
         _summary = summary;
         _details = details;
         return this;
@@ -21,7 +21,7 @@ public class CheckResultBuilder
 
     public CheckResultBuilder Fail(string summary, string? details = null)
     {
-        _status = CheckResultStatus.Fail;
+        ChangeStatus(CheckResultStatus.Fail);
         _summary = summary;
         _details = details;
         return this;
@@ -29,11 +29,16 @@ public class CheckResultBuilder
 
     public CheckResultBuilder Warn(string summary, string? details = null)
     {
-        if (_status == CheckResultStatus.Pass)
-            _status = CheckResultStatus.Warn;
+        ChangeStatus(CheckResultStatus.Warn);
         _summary = summary;
         _details = details;
         return this;
+    }
+
+    private void ChangeStatus(CheckResultStatus newStatus)
+    {
+        if (_status < newStatus)
+            _status = newStatus;
     }
 
     public CheckResultBuilder AddWarning(string message)
