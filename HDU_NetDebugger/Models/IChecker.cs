@@ -1,8 +1,7 @@
 
 using System.Threading.Tasks;
-using HDU_NetDebugger.Models;
 
-namespace HDU_NetDebugger.Checkers;
+namespace HDU_NetDebugger.Models;
 
 public interface IChecker
 {

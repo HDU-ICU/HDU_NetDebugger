@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using HDU_NetDebugger.Models;
-using HDU_NetDebugger.Services;
-using HDU_NetDebugger.Checkers;
 
 namespace HDU_NetDebugger.ViewModels;
 
@@ -19,6 +18,8 @@ public partial class CheckItemViewModel : ViewModelBase
     public string? _checkSummary;
     [ObservableProperty]
     public string? _checkDetails;
+    public ObservableCollection<string> Warnings { get; } = [];
+    public ObservableCollection<string> Suggestions { get; } = [];
     [ObservableProperty]
     public bool _isExpanded = false;
 
