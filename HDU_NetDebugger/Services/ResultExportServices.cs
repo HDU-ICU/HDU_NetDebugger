@@ -62,10 +62,22 @@ public class ResultExportService
         foreach (var item in checkItems)
         {
             sb.AppendLine($"## {item.Name}");
+            sb.AppendLine();
             sb.AppendLine($"- 状态: {item.Status}");
             sb.AppendLine($"- 总览: {item.CheckSummary}");
+            sb.AppendLine($"- 建议:");
+            for (int i = 0; i < item.Suggestions.Count; i++)
+            {
+                sb.AppendLine($"  - {item.Suggestions[i]}");
+            }
+            sb.AppendLine($"- 警告:");
+            for (int i = 0; i < item.Warnings.Count; i++)
+            {
+                sb.AppendLine($"  - {item.Warnings[i]}");
+            }
             sb.AppendLine($"- 详情:");
-            sb.AppendLine("```");
+            sb.AppendLine();
+            sb.AppendLine("```text");
             sb.AppendLine(item.CheckDetails);
             sb.AppendLine("```");
             sb.AppendLine();
