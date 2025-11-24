@@ -43,6 +43,7 @@ public partial class CheckItemViewModel : ViewModelBase
         CheckDetails = "此检查尚未进行";
         Warnings.Clear();
         Suggestions.Clear();
+        Checker.Reset();
     }
 
     public async Task RunAsync()

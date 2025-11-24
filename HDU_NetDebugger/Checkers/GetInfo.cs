@@ -14,11 +14,10 @@ public class GetInfo : CheckerBase
 {
     protected override async Task ExecuteCoreAsync()
     {
-        var detailsBuilder = new StringBuilder();
         var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
         if (networkInterfaces.Length == 0)
         {
-            Fail("未获取到网络接口信息", string.Empty);
+            Fail("未获取到网络接口信息");
             return;
         }
         foreach (var ni in networkInterfaces)
@@ -27,7 +26,7 @@ public class GetInfo : CheckerBase
                 ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet &&
                 HasIPv4Address(ni))
             {
-                detailsBuilder.Append(BuildIFInfo(ni));
+                DetailsBuilder.Append(BuildIFInfo(ni));
                 if (HasDormIPv4Address(ni))
                 {
                     GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
@@ -38,13 +37,14 @@ public class GetInfo : CheckerBase
                 }
             }
         }
-        if (detailsBuilder.Length == 0)
+        if (DetailsBuilder.Length == 0)
         {
-            Fail("未找到符合条件的网络接口", "未找到符合条件的网络接口（以太网且已启用且有IPv4地址）\n");
+            AddWarning("未找到符合条件的网络接口（以太网且已启用且有IPv4地址）");
+            Fail("未找到符合条件的网络接口");
         }
         else
         {
-            Pass(GetSummary(), detailsBuilder.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+            Pass(GetSummary());
         }
     }
     private static bool HasIPv4Address(NetworkInterface ni)

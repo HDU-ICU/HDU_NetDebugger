@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using HDU_NetDebugger.Models;
 using HDU_NetDebugger.Services;
@@ -9,9 +10,17 @@ public abstract class CheckerBase : IChecker
 {
     protected CheckResultBuilder ResultBuilder { get; }
 
+    protected StringBuilder DetailsBuilder { get; }
+
+    private string BuildDetails()
+    {
+        return DetailsBuilder.ToString().TrimEnd(Environment.NewLine.ToCharArray());
+    }
+
     protected CheckerBase()
     {
         ResultBuilder = new CheckResultBuilder();
+        DetailsBuilder = new StringBuilder();
     }
 
     public async Task<CheckResult> ExecuteAsync()
@@ -31,13 +40,14 @@ public abstract class CheckerBase : IChecker
     public void Reset()
     {
         ResultBuilder.Reset();
+        DetailsBuilder.Clear();
     }
     protected abstract Task ExecuteCoreAsync();
 
     // 便捷方法
-    protected void Pass(string summary, string? details = null) => ResultBuilder.Pass(summary, details);
-    protected void Fail(string summary, string? details = null) => ResultBuilder.Fail(summary, details);
-    protected void Warn(string summary, string? details = null) => ResultBuilder.Warn(summary, details);
+    protected void Pass(string summary) => ResultBuilder.Pass(summary, BuildDetails());
+    protected void Fail(string summary) => ResultBuilder.Fail(summary, BuildDetails());
+    protected void Warn(string summary) => ResultBuilder.Warn(summary, BuildDetails());
     protected void AddWarning(string message)
         => ResultBuilder.AddWarning(message);
     protected void AddSuggestion(string suggestion) => ResultBuilder.AddSuggestion(suggestion);
