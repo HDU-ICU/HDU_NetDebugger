@@ -28,7 +28,10 @@ public abstract class CheckerBase : IChecker
                 .Build();
         }
     }
-
+    public void Reset()
+    {
+        ResultBuilder.Reset();
+    }
     protected abstract Task ExecuteCoreAsync();
 
     // 便捷方法

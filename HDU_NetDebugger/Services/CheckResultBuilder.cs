@@ -66,4 +66,13 @@ public class CheckResultBuilder
             Suggestions = _suggestions
         };
     }
+
+    public void Reset()
+    {
+        _status = CheckResultStatus.Pass;
+        _summary = string.Empty;
+        _details = null;
+        _warnings.Clear();
+        _suggestions.Clear();
+    }
 }
