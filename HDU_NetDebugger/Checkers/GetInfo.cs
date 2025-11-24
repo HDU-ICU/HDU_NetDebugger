@@ -27,7 +27,7 @@ public class GetInfo : CheckerBase
                 ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet &&
                 HasIPv4Address(ni))
             {
-                detailsBuilder.AppendLine(BuildIFInfo(ni));
+                detailsBuilder.Append(BuildIFInfo(ni));
                 if (HasDormIPv4Address(ni))
                 {
                     GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
@@ -44,7 +44,7 @@ public class GetInfo : CheckerBase
         }
         else
         {
-            Pass(GetSummary(), detailsBuilder.ToString().TrimEnd('\n'));
+            Pass(GetSummary(), detailsBuilder.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
         }
     }
     private static bool HasIPv4Address(NetworkInterface ni)
@@ -67,8 +67,9 @@ public class GetInfo : CheckerBase
                 return "检测到教学区网络";
             }
         }
-        AddWarning("未检测到校园网地址，如有路由器请忽略");
-        return "未检测到校园网地址，如有路由器请忽略";
+        AddWarning("未检测到校园网地址");
+        AddSuggestion("请检查网络连接，确保已连接到校园网，如果在路由器下使用，请忽略");
+        return "未检测到校园网地址";
     }
     private static bool HasDormIPv4Address(NetworkInterface ni)
     {
@@ -85,8 +86,6 @@ public class GetInfo : CheckerBase
         var sb = new StringBuilder();
         sb.AppendLine($"接口名称: {ni.Name}");
         sb.AppendLine($"描述: {ni.Description}");
-        sb.AppendLine($"类型: {ni.NetworkInterfaceType}");
-        sb.AppendLine($"状态: {ni.OperationalStatus}");
         var ipProps = ni.GetIPProperties();
         var ipv4Addrs = ipProps.UnicastAddresses
             .Where(addr => addr.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
