@@ -22,18 +22,27 @@ public class GetInfo : CheckerBase
         }
         foreach (var ni in networkInterfaces)
         {
-            if (ni.OperationalStatus == OperationalStatus.Up &&
-                ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet &&
-                HasIPv4Address(ni))
+            if (ni.OperationalStatus == OperationalStatus.Up)
             {
-                DetailsBuilder.Append(BuildIFInfo(ni));
-                if (HasDormIPv4Address(ni))
+                if (ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet && HasIPv4Address(ni))
                 {
-                    GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
+                    DetailsBuilder.Append(BuildIFInfo(ni));
+                    if (HasDormIPv4Address(ni))
+                    {
+                        GlobalFlagList.FlagList["NetWorkType"] = "Dorm";
+                    }
+                    else if (HasCampusIPv4Address(ni))
+                    {
+                        GlobalFlagList.FlagList["NetWorkType"] = "Campus";
+                    }
                 }
-                else if (HasCampusIPv4Address(ni))
+                // 也找找tun
+                else if (ni.NetworkInterfaceType == NetworkInterfaceType.Tunnel)
                 {
-                    GlobalFlagList.FlagList["NetWorkType"] = "Campus";
+                    AddWarning("检测到 Tunnel 类型网络接口");
+                    AddSuggestion("建议关闭 VPN 或其他隧道接口");
+                    DetailsBuilder.AppendLine("检测到活动的 Tunnel 类型网络接口，可能为 VPN 或其他隧道接口，详情如下：");
+                    DetailsBuilder.Append(BuildIFInfo(ni));
                 }
             }
         }
