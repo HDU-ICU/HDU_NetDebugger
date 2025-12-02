@@ -44,7 +44,7 @@ public class AuthCheck : CheckerBase
             ? ispId
             : (short)-1;
 
-        var onlineDevicesNotEmpty = GetOnlineDeviceNotEmpty(srunAuthResponse!);
+        var onlineDevicesNotEmpty = GetOnlineDeviceNotEmpty(srunAuthResponse);
         DetailsBuilder.AppendLine("认证响应内容:");
         DetailsBuilder.AppendLine($"运营商: {srunAuthResponse.BillingName}");
         DetailsBuilder.AppendLine($"认证方式: {srunAuthResponse.Domain}");
@@ -92,8 +92,12 @@ public class AuthCheck : CheckerBase
         return null;
     }
 
-    private OnlineDeviceDetail GetOnlineDeviceNotEmpty(SrunAuthResponse srunAuthResponse)
+    private OnlineDeviceDetail GetOnlineDeviceNotEmpty(SrunAuthResponse? srunAuthResponse)
     {
+        if (srunAuthResponse is null)
+        {
+            return new OnlineDeviceDetail();
+        }
         var onlineDeviceDetail = srunAuthResponse.OnlineDeviceDetail;
         OnlineDeviceDetail devices = [];
         foreach (var device in onlineDeviceDetail!)
