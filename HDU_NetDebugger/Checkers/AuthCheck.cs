@@ -44,12 +44,12 @@ public class AuthCheck : CheckerBase
             ? ispId
             : (short)-1;
 
-        var onlineDevicesNotEmpty = GetOnlineDeviceNotEmpty(srunAuthResponse!);
+        var onlineDevicesNotEmpty = GetOnlineDeviceNotEmpty(srunAuthResponse);
         DetailsBuilder.AppendLine("认证响应内容:");
-        DetailsBuilder.AppendLine($"运营商: {srunAuthResponse.BillingName}");
-        DetailsBuilder.AppendLine($"认证方式: {srunAuthResponse.Domain}");
-        DetailsBuilder.AppendLine($"错误信息: {srunAuthResponse.Error}");
-        DetailsBuilder.AppendLine($"在线设备数量: {srunAuthResponse.OnlineDeviceTotal}");
+        DetailsBuilder.AppendLine($"运营商: {srunAuthResponse?.BillingName}");
+        DetailsBuilder.AppendLine($"认证方式: {srunAuthResponse?.Domain}");
+        DetailsBuilder.AppendLine($"错误信息: {srunAuthResponse?.Error}");
+        DetailsBuilder.AppendLine($"在线设备数量: {srunAuthResponse?.OnlineDeviceTotal}");
         DetailsBuilder.AppendLine($"在线设备(非空)数量: {onlineDevicesNotEmpty.Count}");
         DetailsBuilder.AppendLine("在线设备详情:");
         foreach (var device in onlineDevicesNotEmpty)
@@ -92,9 +92,13 @@ public class AuthCheck : CheckerBase
         return null;
     }
 
-    private OnlineDeviceDetail GetOnlineDeviceNotEmpty(SrunAuthResponse srunAuthResponse)
+    private static OnlineDeviceDetail GetOnlineDeviceNotEmpty(SrunAuthResponse? srunAuthResponse)
     {
-        var onlineDeviceDetail = srunAuthResponse.OnlineDeviceDetail;
+        var onlineDeviceDetail = srunAuthResponse?.OnlineDeviceDetail;
+        if (onlineDeviceDetail is null)
+        {
+            return new OnlineDeviceDetail();
+        }
         OnlineDeviceDetail devices = [];
         foreach (var device in onlineDeviceDetail!)
         {
