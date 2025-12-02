@@ -20,4 +20,28 @@ public static class HDUConst
         public const string Ok = "ok";
         public const string NotOnline = "not_online_error";
     }
+
+    // 深澜的运营商ID对应
+    public enum SrunProductId : short
+    {
+        ChinaUnicom = 3,      // 中国联通
+        ChinaTelecom = 4,     // 中国电信        
+        ChinaMobile = 5,      // 中国移动
+    }
+
+    // ID到名称映射
+    public static readonly Dictionary<short, string> SrunProductIdToNameMap = new()
+    {
+        {(short)SrunProductId.ChinaUnicom, "中国联通" },
+        {(short)SrunProductId.ChinaTelecom, "中国电信" },
+        {(short)SrunProductId.ChinaMobile, "中国移动" },
+    };
+
+    // ID到网关IP映射
+    public static readonly Dictionary<short, IPAddress> SrunProductIdToGatewayMap = new()
+    {
+        {(short)SrunProductId.ChinaUnicom, IPAddress.Parse("172.20.64.1") },
+        {(short)SrunProductId.ChinaTelecom, IPAddress.Parse("60.176.40.1") },
+        {(short)SrunProductId.ChinaMobile, IPAddress.Parse("10.106.0.1") },
+    };
 }

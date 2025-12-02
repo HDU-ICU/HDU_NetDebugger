@@ -83,7 +83,7 @@ public class SrunAuthResponse
     public string PppoeDial { get; set; } = string.Empty;
 
     [JsonPropertyName("products_id")]
-    public string ProductsId { get; set; } = string.Empty;
+    public short ProductsId { get; set; }
 
     [JsonPropertyName("products_name")]
     public string ProductsName { get; set; } = string.Empty;
