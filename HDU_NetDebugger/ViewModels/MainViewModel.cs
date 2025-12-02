@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HDU_NetDebugger.Services;
+using HDU_NetDebugger.Utils;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ public partial class MainViewModel : ViewModelBase
 {
     public MainViewModel()
     {
-        foreach (var (name, checker, conditions) in CheckServices.GetAvailableCheckers([
+        foreach (var (name, checker, conditions) in CheckCollector.GetAvailableCheckers([
             "HDU_NetDebugger.Checkers",
             "HDU_NetDebugger.Desktop.Checkers",
             "HDU_NetDebugger.Android.Checkers",
@@ -69,7 +69,7 @@ public partial class MainViewModel : ViewModelBase
     public async Task ExportResults()
     {
         IsExportingResults = true;
-        await ResultExportService.ExportAsync(CheckItems, LastCheckTime);
+        await ResultExportUtils.ExportAsync(CheckItems, LastCheckTime);
         IsExportingResults = false;
     }
 }
