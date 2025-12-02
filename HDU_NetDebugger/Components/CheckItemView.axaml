@@ -64,7 +64,7 @@
               Data="{StaticResource lightbulb_filled}" />
             <TextBlock Text="建议：" FontWeight="Bold" Margin="5,0,0,0" Foreground="Aqua" />
           </StackPanel>
-          <TextBlock
+          <SelectableTextBlock
             Text="{Binding Suggestions, Converter={StaticResource StringCollectionToStringConverter}}"
             TextWrapping="Wrap"
             HorizontalAlignment="Stretch"
@@ -86,7 +86,7 @@
               Data="{StaticResource warning_filled}" />
             <TextBlock Text="警告：" FontWeight="Bold" Margin="5,0,0,0" Foreground="Yellow" />
           </StackPanel>
-          <TextBlock
+          <SelectableTextBlock
             Text="{Binding Warnings, Converter={StaticResource StringCollectionToStringConverter}}"
             TextWrapping="Wrap"
             HorizontalAlignment="Stretch"
@@ -101,7 +101,7 @@
             Data="{StaticResource info_filled}" />
           <TextBlock Text="详细信息：" FontWeight="Bold" Margin="5,0,0,0" />
         </StackPanel>
-        <TextBlock Text="{Binding CheckDetails}"
+        <SelectableTextBlock Text="{Binding CheckDetails}"
           TextWrapping="Wrap"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch" />
