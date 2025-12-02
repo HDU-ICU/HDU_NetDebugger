@@ -43,6 +43,16 @@ public class GetInfo : CheckerBase
                     AddSuggestion("建议关闭 VPN 或其他隧道接口");
                     DetailsBuilder.AppendLine("检测到活动的 Tunnel 类型网络接口，可能为 VPN 或其他隧道接口，详情如下：");
                     DetailsBuilder.Append(BuildIFInfo(ni));
+                    GlobalFlagList.FlagList["HasTunnelInterface"] = true;
+                }
+                // mihomo会用type53
+                else if (ni.NetworkInterfaceType == (NetworkInterfaceType)53)
+                {
+                    AddWarning("检测到 propVirtual 类型网络接口");
+                    AddSuggestion("建议关闭 VPN 或其他隧道接口");
+                    DetailsBuilder.AppendLine("检测到活动的 propVirtual 类型网络接口，可能为 VPN 或其他隧道接口，详情如下：");
+                    DetailsBuilder.Append(BuildIFInfo(ni));
+                    GlobalFlagList.FlagList["HasTunnelInterface"] = true;
                 }
             }
         }

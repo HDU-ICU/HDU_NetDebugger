@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using HDU_NetDebugger.Attributes;
+using HDU_NetDebugger.Utils;
 
 namespace HDU_NetDebugger.Checkers;
 
@@ -42,6 +43,11 @@ public class ProxyCheck : CheckerBase
         else
         {
             Pass("未检测到代理配置");
+        }
+        if (GlobalFlagList.FlagList.TryGetValue("HasTunnelInterface", out var hasTunnel) && hasTunnel is true)
+        {
+            AddWarning("检测到 Tunnel 类型网络接口");
+            AddSuggestion("建议关闭 VPN 或其他隧道接口");
         }
     }
 
