@@ -8,4 +8,6 @@ public static class HDUConst
     public static readonly IPNetwork CampusNetwork = IPNetwork.Parse("10.249.0.0/16");  // 校园网段
     public static readonly IPAddress BASIp = IPAddress.Parse("10.150.0.1");             // BAS
     public static readonly IPAddress SrunIp = IPAddress.Parse("192.168.112.97");        // 深澜认证服务器
+    public const string HDUPortalDomain = "portal.hdu.edu.cn";                          // 杭电生活区认证门户域名
+    public static readonly IPAddress HDUDnsIp = IPAddress.Parse("210.32.32.1");         // DNS
 }
