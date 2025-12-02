@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-namespace HDU_NetDebugger.Services;
+namespace HDU_NetDebugger.Utils;
 
 public class GlobalFlagList
 {

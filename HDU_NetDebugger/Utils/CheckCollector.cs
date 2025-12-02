@@ -7,9 +7,9 @@ using HDU_NetDebugger.Attributes;
 using HDU_NetDebugger.Checkers;
 using HDU_NetDebugger.Models;
 
-namespace HDU_NetDebugger.Services;
+namespace HDU_NetDebugger.Utils;
 
-public class CheckServices
+public class CheckCollector
 {
     public static IEnumerable<(string Name, IChecker? Checker, Dictionary<string, Func<Task<bool>>> Conditions)> GetAvailableCheckers(params string[] targetNamespaces)
     {

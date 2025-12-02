@@ -7,9 +7,9 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using HDU_NetDebugger.ViewModels;
 
-namespace HDU_NetDebugger.Services;
+namespace HDU_NetDebugger.Utils;
 
-public class ResultExportService
+public class ResultExportUtils
 {
 
     public static FilePickerFileType MarkdownFIle { get; } = new("Markdown File")
