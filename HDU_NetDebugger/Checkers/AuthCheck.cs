@@ -37,6 +37,7 @@ public class AuthCheck : CheckerBase
             Fail("认证状态查询失败");
             return;
         }
+        GlobalFlagList.FlagList["ISPId"] = srunAuthResponse.ProductsId; // 记录运营商信息供后续检查使用
         var onlineDevicesNotEmpty = GetOnlineDeviceNotEmpty(srunAuthResponse!);
         DetailsBuilder.AppendLine("认证响应内容:");
         DetailsBuilder.AppendLine($"运营商: {srunAuthResponse.BillingName}");
@@ -71,7 +72,7 @@ public class AuthCheck : CheckerBase
         Pass("认证状态正常");
     }
 
-    private SrunAuthResponse? SrunToJsonDeserializer(string srunResponse)
+    private static SrunAuthResponse? SrunToJsonDeserializer(string srunResponse)
     {
         // 去掉 jQuery(...) 包装
         int startIndex = srunResponse.IndexOf('(');
