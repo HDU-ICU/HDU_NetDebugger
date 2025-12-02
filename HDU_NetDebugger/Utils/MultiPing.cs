@@ -36,6 +36,9 @@ class MultiPing()
             }
             detailBuilder?.AppendLine($"Ping {targetAddress} 第 {i + 1} 次: 状态:{reply.Status}, 时间:{reply.RoundtripTime}ms");
         }
+        // 防止最大和最小值未更新的情况
+        if (minRoundtripTime == long.MaxValue) minRoundtripTime = 0;
+        if (maxRoundtripTime == long.MinValue) maxRoundtripTime = 0;
         long averageRoundtripTime = successCount > 0 ? totalRoundtripTime / successCount : 0;
         detailBuilder?.AppendLine($"Ping 测试完成: 成功次数:{successCount}/{count}, 平均时间:{averageRoundtripTime}ms, 最小时间:{minRoundtripTime}ms, 最大时间:{maxRoundtripTime}ms");
 
