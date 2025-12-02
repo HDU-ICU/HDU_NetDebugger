@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace HDU_NetDebugger.Models;
 
 class GenericConst
@@ -10,4 +12,5 @@ class GenericConst
 
     // 公网常用地址
     public const string MiuiRom204Url = "http://connect.rom.miui.com/generate_204"; // miuirom204地址
+    public static readonly IPAddress AliDnsIp = IPAddress.Parse("223.5.5.5");
 }
