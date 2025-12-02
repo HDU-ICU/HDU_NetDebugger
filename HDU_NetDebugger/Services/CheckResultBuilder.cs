@@ -43,7 +43,10 @@ public class CheckResultBuilder
 
     public CheckResultBuilder AddWarning(string message)
     {
-        _warnings.Add(message);
+        if (!string.IsNullOrWhiteSpace(message) && !_warnings.Contains(message))
+        {
+            _warnings.Add(message);
+        }
         if (_status == CheckResultStatus.Pass)
             _status = CheckResultStatus.Warn;
         return this;
@@ -51,7 +54,10 @@ public class CheckResultBuilder
 
     public CheckResultBuilder AddSuggestion(string suggestion)
     {
-        _suggestions.Add(suggestion);
+        if (!string.IsNullOrWhiteSpace(suggestion) && !_suggestions.Contains(suggestion))
+        {
+            _suggestions.Add(suggestion);
+        }
         return this;
     }
 
