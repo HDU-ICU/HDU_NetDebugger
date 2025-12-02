@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
+using System.Runtime.Intrinsics.Arm;
 using System.Text.Json;
 using System.Threading.Tasks;
 using HDU_NetDebugger.Attributes;
@@ -37,7 +38,12 @@ public class AuthCheck : CheckerBase
             Fail("认证状态查询失败");
             return;
         }
-        GlobalFlagList.FlagList["ISPId"] = srunAuthResponse.ProductsId; // 记录运营商信息供后续检查使用
+
+        // 记录运营商信息供后续检查使用
+        GlobalFlagList.FlagList["ISPId"] = short.TryParse(srunAuthResponse.ProductsId, out var ispId)
+            ? ispId
+            : (short)-1;
+
         var onlineDevicesNotEmpty = GetOnlineDeviceNotEmpty(srunAuthResponse!);
         DetailsBuilder.AppendLine("认证响应内容:");
         DetailsBuilder.AppendLine($"运营商: {srunAuthResponse.BillingName}");
