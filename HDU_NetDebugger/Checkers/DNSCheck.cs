@@ -13,6 +13,7 @@ public class DNSCheck : CheckerBase
 {
     protected override async Task ExecuteCoreAsync()
     {
+        GlobalFlagList.FlagList["DNSStatus"] = false;    // 默认DNS不可用
         var client = new LookupClient(HDUConst.HDUDnsIp);
         var result = await client.QueryAsync(HDUConst.HDUPortalDomain, QueryType.A);
         if (result.HasError)
@@ -42,6 +43,7 @@ public class DNSCheck : CheckerBase
             if (hasRightAnswer)
             {
                 Pass("DNS 查询成功，返回了正确的 A 记录");
+                GlobalFlagList.FlagList["DNSStatus"] = true;
             }
             else
             {
