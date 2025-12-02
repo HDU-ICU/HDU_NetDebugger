@@ -14,6 +14,10 @@ public class ISPCheck : CheckerBase
     {
         if (GlobalFlagList.FlagList.TryGetValue("ISPId", out var ispIdObj) && ispIdObj is short ispId)
         {
+            if (ispId <= 0 || !HDUConst.SrunProductIdToGatewayMap.ContainsKey(ispId))
+            {
+                return false;
+            }
             return true;
         }
         return false;
