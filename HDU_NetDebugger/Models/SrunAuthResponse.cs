@@ -9,11 +9,6 @@ using System.Text.Json.Serialization;
 /// </summary>
 public class SrunAuthResponse
 {
-    // 缓存JsonSerializerOptions实例，避免每次创建新实例
-    private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
-    {
-        PropertyNameCaseInsensitive = true
-    };
 
     [JsonPropertyName("ServerFlag")]        // Newtonsoft 用 [JsonProperty]
     public long ServerFlag { get; set; }
@@ -62,7 +57,7 @@ public class SrunAuthResponse
     public OnlineDeviceDetail? OnlineDeviceDetail =>
         string.IsNullOrEmpty(OnlineDeviceDetailRaw)
             ? null
-            : JsonSerializer.Deserialize<OnlineDeviceDetail>(OnlineDeviceDetailRaw, _jsonOptions);
+            : System.Text.Json.JsonSerializer.Deserialize(OnlineDeviceDetailRaw, Models.AppJsonSerializerContext.Default.OnlineDeviceDetail);
 
     [JsonPropertyName("online_device_total")]
     public string OnlineDeviceTotal { get; set; } = string.Empty;

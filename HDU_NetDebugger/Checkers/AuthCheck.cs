@@ -87,7 +87,7 @@ public class AuthCheck : CheckerBase
         {
             string jsonString = srunResponse.Substring(startIndex + 1, endIndex - startIndex - 1);
             Console.WriteLine("Extracted JSON: " + jsonString);
-            return JsonSerializer.Deserialize<SrunAuthResponse>(jsonString);
+            return System.Text.Json.JsonSerializer.Deserialize(jsonString, Models.AppJsonSerializerContext.Default.SrunAuthResponse);
         }
         return null;
     }
