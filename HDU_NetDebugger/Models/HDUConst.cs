@@ -42,6 +42,6 @@ public static class HDUConst
     {
         {(short)SrunProductId.ChinaUnicom, IPAddress.Parse("172.20.64.1") },
         {(short)SrunProductId.ChinaTelecom, IPAddress.Parse("60.176.40.1") },
-        {(short)SrunProductId.ChinaMobile, IPAddress.Parse("10.106.0.1") },
+        {(short)SrunProductId.ChinaMobile, IPAddress.Parse("117.147.121.1") },  // 网关ping不通，改用bras上的固定ip
     };
 }
