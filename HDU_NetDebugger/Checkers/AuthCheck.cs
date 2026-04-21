@@ -16,17 +16,17 @@ public class AuthCheck : CheckerBase
 {
     protected override async Task ExecuteCoreAsync()
     {
-        string host = HDUConst.SrunIp.ToString();
+        string srunHost = HDUConst.SrunIp.ToString();
         if (GlobalFlagList.FlagList["DNSStatus"] is bool dnsStatus && dnsStatus)
         {
             DetailsBuilder.AppendLine("DNS 可用，使用域名进行认证状态请求。");
-            host = HDUConst.HDUPortalDomain;
+            srunHost = HDUConst.HDUPortalDomain;
         }
         else
         {
             DetailsBuilder.AppendLine("DNS 不可用，使用 IP 地址进行认证状态请求。");
         }
-        var srunAuthUrl = "https://" + host + HDUConst.HDUPortalRoute;
+        var srunAuthUrl = "https://" + srunHost + HDUConst.HDUPortalRoute;
         DetailsBuilder.AppendLine($"请求 URL: {srunAuthUrl}");
         var result = await HttpUtils.GetAsync(srunAuthUrl);
         var srunAuthResponse = SrunToJsonDeserializer(result.Content.ReadAsStringAsync().Result);
@@ -65,12 +65,12 @@ public class AuthCheck : CheckerBase
             if (srunAuthResponse.Error == HDUConst.SrunErrCode.NotOnline)
             {
                 AddWarning("当前未认证");
-                AddSuggestion($"请前往认证页面进行认证，网址为 {srunAuthUrl}");
+                AddSuggestion($"请前往认证页面进行认证，网址为 {srunHost}");
                 Fail("未认证");
                 return;
             }
             AddWarning($"认证错误: {srunAuthResponse.Error}");
-            AddSuggestion($"请尝试重新认证，网址为 {srunAuthUrl}");
+            AddSuggestion($"请尝试重新认证，网址为 {srunHost}");
             AddSuggestion("如问题依旧，请联系ICU并提供错误信息");
             Fail("认证状态异常");
             return;
