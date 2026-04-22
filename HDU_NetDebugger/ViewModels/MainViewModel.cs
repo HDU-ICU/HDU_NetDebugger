@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HDU_NetDebugger.Services;
 using HDU_NetDebugger.Utils;
 using System;
 using System.Collections.ObjectModel;
@@ -12,17 +13,11 @@ public partial class MainViewModel : ViewModelBase
 {
     public MainViewModel()
     {
-        foreach (var (name, checker, conditions) in CheckCollector.GetAvailableCheckers([
-            "HDU_NetDebugger.Checkers",
-            "HDU_NetDebugger.Desktop.Checkers",
-            "HDU_NetDebugger.Android.Checkers",
-            "HDU_NetDebugger.iOS.Checkers",
-            "HDU_NetDebugger.Browser.Checkers"
-        ]))
+        foreach (var info in CheckerCollector.GetRegistered())
         {
-            if (checker is not null)
+            if (Activator.CreateInstance(info.CheckerType) is IChecker checker)
             {
-                CheckItems.Add(new CheckItemViewModel(name, checker, conditions));
+                CheckItems.Add(new CheckItemViewModel(info.Name, checker, info.Conditions));
             }
         }
         RunChecksCommand.NotifyCanExecuteChanged();
